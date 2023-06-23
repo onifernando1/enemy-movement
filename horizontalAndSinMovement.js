@@ -11,31 +11,26 @@ gameFrame = 0;
 class Enemy {
   constructor() {
     this.image = new Image();
-    this.image.src = "enemy3.png";
+    this.image.src = "enemy2.png";
     this.speed = Math.random() * 4 + 1;
-    this.spriteWidth = 218;
-    this.spriteHeight = 177;
+    this.spriteWidth = 266;
+    this.spriteHeight = 188;
     this.width = this.spriteWidth / 2.5;
     (this.x = Math.random() * (canvas.width - this.width)),
       (this.height = this.spriteHeight / 2.5);
-    this.y = Math.random() * (canvas.height - this.height);
-    this.newX = Math.random() * (canvas.width - this.width);
-    (this.newY = Math.random() * (canvas.width - this.width)), (this.frame = 0);
+    (this.y = Math.random() * (canvas.height - this.height)), (this.frame = 0);
     this.flapSpeed = Math.floor(Math.random() * 3 + 1);
-    this.interval = Math.floor(Math.random() * 200 + 50);
+    this.angle = 0;
+    this.angleSpeed = Math.random() * 0.2;
+    this.curve = Math.random() * 7;
   }
   update() {
-    if (gameFrame % this.interval == 0) {
-      //every 30 frames if %30)
-      this.newX = Math.random() * (canvas.width - this.width);
-      this.newY = Math.random() * (canvas.width - this.width);
-    }
-    let dx = this.x - this.newX;
-    let dy = this.y - this.newY;
-
-    this.x -= dx / 20; //
-    this.y -= dy / 20; // move to new position 1/20th of speed (/20)
+    this.x -= this.speed;
+    this.y += this.curve * Math.sin(this.angle); // return number cycling between +1 and -1 (*3 -3 +3) // mayve move to line 32 if it doesnt work
+    this.angle += this.angleSpeed; // move to 32 if doesnt work
     if (this.x + this.width < 0) this.x = canvas.width;
+
+    //animate sprite
     if (gameFrame % this.flapSpeed === 0) {
       this.frame > 4 ? (this.frame = 0) : this.frame++; //
     }

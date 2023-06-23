@@ -18,23 +18,22 @@ class Enemy {
     this.width = this.spriteWidth / 2.5;
     (this.x = Math.random() * (canvas.width - this.width)),
       (this.height = this.spriteHeight / 2.5);
-    this.y = Math.random() * (canvas.height - this.height);
-    this.newX = Math.random() * (canvas.width - this.width);
-    (this.newY = Math.random() * (canvas.width - this.width)), (this.frame = 0);
+    (this.y = Math.random() * (canvas.height - this.height)), (this.frame = 0);
     this.flapSpeed = Math.floor(Math.random() * 3 + 1);
-    this.interval = Math.floor(Math.random() * 200 + 50);
+    this.angle = 0;
+    this.angleSpeed = Math.random() * 2 + 0.5;
+    this.curve = Math.random() * 200 + 50;
   }
   update() {
-    if (gameFrame % this.interval == 0) {
-      //every 30 frames if %30)
-      this.newX = Math.random() * (canvas.width - this.width);
-      this.newY = Math.random() * (canvas.width - this.width);
-    }
-    let dx = this.x - this.newX;
-    let dy = this.y - this.newY;
-
-    this.x -= dx / 20; //
-    this.y -= dy / 20; // move to new position 1/20th of speed (/20)
+    this.x =
+      this.curve * Math.sin(this.angle * (Math.PI / 180)) + // change this .curve to this.width / 2 to fit into canvas
+      (canvas.width / 2 - this.width / 2); // center take into account width to center
+    this.y =
+      this.curve * Math.cos(this.angle * (Math.PI / 180)) +
+      (canvas.height / 2 - // center
+        this.height / 2); // take into account width to center    this.angle += this.angleSpeed;
+    this.angle += this.angleSpeed;
+    // if Math.Pi/90 and Math.pi/180 x,y , then figure of 8
     if (this.x + this.width < 0) this.x = canvas.width;
     if (gameFrame % this.flapSpeed === 0) {
       this.frame > 4 ? (this.frame = 0) : this.frame++; //
